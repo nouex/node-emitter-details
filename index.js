@@ -3,105 +3,105 @@
 var EE = require("events");
 var util = require("util");
 var assert = require("assert");
-var Details = require("./lib/details.js");
+var EmitterDetails = require("./lib/emitter-details.js");
 var common = require("./lib/common.js");
 
 /**
 * @api public
 * @param {EventEmitter} emitter
-* @return {EventEmitter} detailsObj
+* @return {Object} emitterDetails
 * Wraps the passed-in emitter, returning the stats object
 */
 
 module.exports =
-function getDetails(emitter, opts) {
-  var doExit = null;
-  var opts = opts || {};
-  if (!(opts.includeAutoEvents || util.isArray(opts.includeAutoEvents))) {
-    opts.includeAutoEvents = [false, false];
-  } else if (util.isArray(opts.includeAutoEvents)) {
-    assert.strictEqual(typeof opts.includeAutoEvents[0], "boolean", "`includeAutoEvents` el must be a boolean");
-    assert.strictEqual(typeof opts.includeAutoEvents[1], "boolean", "`includeAutoEvents` el must be a boolean");
-  }
-  opts.saveInactiveEventDetails = opts.saveInactiveEventDetails ? opts.saveInactiveEventDetails : false;
+function getEmitterDetails(emitter, opts) {
+
+  /* ----- filter args ----- */
+
+  (function normalizeOpts() {
+    var exEvs, saveInactiveEventDetails;
+    opts = util.isObject(opts) ? opts : Object.create(null);
+    exEvs = opts.excludedEvents;
+    opts.excludedEvents = util.isArray(exEvs) ? exEvs : util.isFunction(exEvs)
+     ? /*FIXME assert.AssertionError("bad `excludedEvents`"),*/ exEvs = [exEvs] : exEvs = [];
+     saveInactiveEventDetails = opts.saveInactiveEventDetails;
+    opts.saveInactiveEventDetails = saveInactiveEventDetails ? true : false;
+  }())
 
   assert.ok(emitter instanceof EE, "arg must be an Event Emitter");
 
-  var details = new Details(emitter);
-  // NOTE the following line must go in this order
-  emitter.on("newListener", onNewListener);
-  emitter.on("removeListener", onRemoveListener);
-  // transfer normal events to detailed events
+  /* ----- main body: update emitter details & add crucial handlers ----- */
+
+  var emitterDetails = new EmitterDetails(emitter);
+
+  // update registered events to detailed events
   var _events = common.copy(emitter._events);
-  var exEvents = util.isArray(opts.excludedEvents) ? opts.excludedEvents : [];
-  opts.includeAutoEvents[0] ? void 0 : exEvents.push("newListener");
-  opts.includeAutoEvents[1] ? void 0 : exEvents.push("removeListener");
+  var xEvents = opts.excludedEvents;
+  // special case handlers are added now
+  [["newListener", onNewListener], ["removeListener", onRemoveListener]].forEach(function(pair) {
+    if (!~xEvents.indexOf(pair[0])) {
+      onNewListener(pair[0], pair[1]);
+    }
+  });
+
   Object.keys(_events).forEach(function(name) {
-    var exEventFound;
-    if (!~exEvents.indexOf(name)) {
-      var single = false;
-      var count = util.isArray(_events[name]) ? _events[name].length : single = true;
-      single ? count = 1 : count = count;
-      for (var i = count; i; i--) {
-        single ? onNewListener(name, _events[name]) : onNewListener(name, _events[name][Math.abs(i - count)])
-      }
+    var handlers, event;
+    if (!~xEvents.indexOf(name)) {
+      event = _events[name];
+      handler = util.isArray(event) ? event : [event];
+      handler.forEach(function(fn) {
+        onNewListener(name, fn);
+      }, null);
     }
   }, null);
   _events = null;
 
-  return details;
+  // NOTE must go in this order so `onRemoveListener` does not re-register
+  emitter.on("removeListener", onRemoveListener);
+  emitter.on("newListener", onNewListener);
+
+
+  /* ----- return ----- */
+
+  return emitterDetails;
+
+  /* ----- func decls ----- */
 
   function onNewListener(event, listener) {
-    var eDetails;
-    if (!(eDetails = details.getEventDetails(event))) {
-      // onRemoveListener with flag turned off
-      if (util.isNull(doExit)) {
-        opts.includeAutoEvents[1] === false ? doExit = true : doExit = false;
-        if (opts.includeAutoEvents[0] === true) {
-          onNewListener("newListener", onNewListener);
-        }
-        if (doExit)
-          return;
-      }
-      details._addEvent(event, listener);
-      eDetails = details.getEventDetails(event);
+    var evDetails;
+
+    if (~opts.excludedEvents.indexOf(event)) {
+      return;
+    }
+
+    if (util.isNull(evDetails = emitterDetails.getEventDetails(event))) {
+      emitterDetails._addEvent(event, listener);
+      evDetails = emitterDetails.getEventDetails(event);
       if (!(event === "newListener" || event === "removeListener"))
-        emitter.on(event, genericEventWrapper);
+        emitter.on(event, genericEventRegulator);
     } else {
       // TODO make sure genericEventRegulator is set i.e. debug(...)
-      eDetails._addHandler(listener);
+      evDetails._addHandler(listener);
     }
-    function genericEventWrapper() {
-      genericEventRegulator.apply(null, [eDetails].concat(arguments));
+
+    function genericEventRegulator() {
+      evDetails.timesEmitted++;
+      evDetails.prevArgs = common.copy(arguments);
     }
   }
 
   function onRemoveListener(event, listener) {
-    // DEBUG make sure event event exists
-    var eDetails = details.getEventDetails(event);
-    if (eDetails === null)
-      return false;//after last handler is removed and inactive eDetails is deleted
-    eDetails._removeHandler(listener);
-    if (emitter.listeners(event).length === 1 && emitter.listeners(event)[0] === genericEventWrapper) {
+    var evDetails = emitterDetails.getEventDetails(event);
+    if (evDetails === null)
+      return;
+
+    evDetails._removeHandler(listener);
+    if (emitter.listeners(event).length === 1 && emitter.listeners(event)[0].name === "genericEventRegulator") {
+      // FIXME emitter.removeListener(event, genericEventRegulator);
+      /* FIXED */ emitter.removeAllListeners(event);
       if (!opts.saveInactiveEventDetails) {
-        delete details.events[event];// FIXME does delete only work in prop form i.e. emitter.eDetails
+        delete emitterDetails.events[event];
       }
-      emitter.removeListener(event, genericEventWrapper);
     }
   }
-
-  function genericEventRegulator(eDetails) {
-    var args = [].slice.call(arguments, 0, arguments.length);
-    eDetails.timesEmitted++;
-  }
 }
-
-// PROBE FIELD
-var opts = {
-  saveInactiveEventDetails: false,
-  includeAutoEvents: [true, true],
-  exludedEvents: ["ename", "ename2"]
-};
-
-// TODO
-// it is messy, fix it

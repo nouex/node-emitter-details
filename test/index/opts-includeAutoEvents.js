@@ -6,7 +6,7 @@ var getDetails = require("../../index.js");
 var assert = require("assert");
 var opts = {
   saveInactiveEventDetails: true,
-  includeAutoEvents: [true, false]
+  includeAutoEvents: [false, false]
 };
 
 function createEmitter() {
@@ -28,10 +28,10 @@ function event2Dummy1() {}
 e1.on("event1", event1Dummy1);
 e1.on("event1", event1Dummy2);
 e1.on("event2", event2Dummy1);
-process.stdout.write(util.inspect(d1, {colors: true, depth: null}))
-process.exit(0);
 // removing events
-e1.removeListener("event1", event1Dummy1);
-e1.removeListener("event1", event1Dummy2);
+//e1.removeListener("event1", event1Dummy1);
+//e1.removeListener("event1", event1Dummy2);
+
+e1.emit("event1", "hello", {"bar": "nothing"}, 4);
 
 process.stdout.write(util.inspect(d1, {colors: true, depth: null}))

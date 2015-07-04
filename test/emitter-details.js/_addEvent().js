@@ -1,6 +1,6 @@
 "use strict";
 
-var Details = require("../../lib/details.js");
+var Details = require("../../lib/event-details.js");
 var EE = require("events");
 var util = require("util");
 
