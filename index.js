@@ -4,6 +4,8 @@ var EE = require("events");
 var util = require("util");
 var assert = require("assert");
 var EmitterDetails = require("./lib/emitter-details.js");
+var EventDetails = require("./lib/event-details.js");
+var HandlerDetails = require("./lib/handler-details.js");
 var common = require("./lib/common.js");
 
 /**
@@ -13,7 +15,6 @@ var common = require("./lib/common.js");
 * Wraps the passed-in emitter, returning the stats object
 */
 
-module.exports =
 function getEmitterDetails(emitter, opts) {
 
   /* ----- filter args ----- */
@@ -85,8 +86,14 @@ function getEmitterDetails(emitter, opts) {
     }
 
     function genericEventRegulator() {
+      var stackTrace;
       evDetails.timesEmitted++;
       evDetails.prevArgs = common.copy(arguments);
+      // capturing stack trace
+      var err = new Error;
+      Error.captureStackTrace(err, genericEventRegulator);
+      stackTrace = err.stack.slice(6, err.stack.length);
+      evDetails._stackTrace = stackTrace;
     }
   }
 
@@ -105,3 +112,15 @@ function getEmitterDetails(emitter, opts) {
     }
   }
 }
+
+function getEDapi (emitter, opts) {
+  var emitterDetails = new getEmitterDetails(emitter, opts);
+  emitterDetails.__proto__ = api;
+  return emitterDetails;
+}
+
+var api = Object.create(null);
+
+// ... TO BE CONTINUED ...
+
+module.exports = getEDapi;

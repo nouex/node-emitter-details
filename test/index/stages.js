@@ -57,7 +57,7 @@ e1.on("event2", event2handler1);                      // log1(d1)
 
 /*  ----- EMITTER FIRE EVENTS ----- */
 e1.emit("event1", "dummyArg1", {"dummyArg2": 222});
-e1.emit("event2");                                     // log1(d1.events)
+e1.emit("event2");                                      log1(d1.events)
 
 /*  ----- EMITTER REMOVE EVENT ----- */
 e1.removeListener("event1", event1handler2);           // log1(d1.events);
