@@ -15,6 +15,7 @@ var common = require("./lib/common.js");
 * Wraps the passed-in emitter, returning the stats object
 */
 
+module.exports =
 function getEmitterDetails(emitter, opts) {
 
   /* ----- filter args ----- */
@@ -112,15 +113,3 @@ function getEmitterDetails(emitter, opts) {
     }
   }
 }
-
-function getEDapi (emitter, opts) {
-  var emitterDetails = new getEmitterDetails(emitter, opts);
-  emitterDetails.__proto__ = api;
-  return emitterDetails;
-}
-
-var api = Object.create(null);
-
-// ... TO BE CONTINUED ...
-
-module.exports = getEDapi;
