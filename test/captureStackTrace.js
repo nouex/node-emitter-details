@@ -16,8 +16,8 @@ function a() {
 }
 
 function formatStack(stack) {
-  // TODO use a regexp related meth to strip /$Error\n/
-  return stack.slice(6, stack.length);
+  var regex = /Error\n/;
+  return stack.replace(regex, "");
 }
 
 Error.prepareStackTrace = function (err, arr) {
