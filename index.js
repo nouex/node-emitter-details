@@ -7,6 +7,7 @@ var EmitterDetails = require("./lib/emitter-details.js");
 var EventDetails = require("./lib/event-details.js");
 var HandlerDetails = require("./lib/handler-details.js");
 var common = require("./lib/common.js");
+var tool = require("../tools");
 
 /**
 * @api public
@@ -14,8 +15,7 @@ var common = require("./lib/common.js");
 * @return {Object} emitterDetails
 * Wraps the passed-in emitter, returning the stats object
 */
-
-module.exports =
+var exp = module.exports =
 function getEmitterDetails(emitter, opts) {
 
   /* ----- filter args ----- */
@@ -50,8 +50,8 @@ function getEmitterDetails(emitter, opts) {
     var handlers, event;
     if (!~xEvents.indexOf(name)) {
       event = _events[name];
-      handler = util.isArray(event) ? event : [event];
-      handler.forEach(function(fn) {
+      handlers = util.isArray(event) ? event : [event];
+      handlers.forEach(function(fn) {
         onNewListener(name, fn);
       }, null);
     }
@@ -79,12 +79,25 @@ function getEmitterDetails(emitter, opts) {
     if (util.isNull(evDetails = emitterDetails.getEventDetails(event))) {
       emitterDetails._addEvent(event, listener);
       evDetails = emitterDetails.getEventDetails(event);
+      evDetails.genericEventRegulator = genericEventRegulator;
+      evDetails.name = event;
       if (!(event === "newListener" || event === "removeListener"))
         emitter.on(event, genericEventRegulator);
     } else {
       // TODO make sure genericEventRegulator is set i.e. debug(...)
       evDetails._addHandler(listener);
     }
+    // make genericEventRegulator an emitter, this is for
+    // async getEmissionCxt to listen on & maybe future add-ons
+    var helper;
+    genericEventRegulator.__proto__.__proto__ = EE.prototype;
+    function Helper() {
+      EE.call(this);
+    }
+    Object.getOwnPropertyNames(helper = new Helper).forEach(function(prop) {
+      genericEventRegulator[prop] = helper[prop];
+    });
+    helper = null;
 
     function genericEventRegulator() {
       var stackTrace;
@@ -95,6 +108,9 @@ function getEmitterDetails(emitter, opts) {
       Error.captureStackTrace(err, genericEventRegulator);
       stackTrace = err.stack.slice(6, err.stack.length);
       evDetails._stackTrace = stackTrace;
+      evDetails._callSite = tool.getCallSite(0, genericEventRegulator);
+      // after updating, emit itself and pass in eventDetails
+      genericEventRegulator.emit(event, evDetails);
     }
   }
 
@@ -111,5 +127,19 @@ function getEmitterDetails(emitter, opts) {
         delete emitterDetails.events[event];
       }
     }
+  }
+}
+
+// useful for a long ancestry such as an http socket
+// NOTE was my inspiration for the project
+// tryes sync then async
+// TODO avoid tracking onEvent as a listener ( it is not a user listener)
+// TODO use evDetails.getEmissionCxtAsync insitead of registering a func
+exp.cxtOfEmission = function(emitter, event, fn) {
+  var emDetails = exp(emitter);
+  emitter.on(event, onEvent);
+  function onEvent() {
+    // event emitted so for sure there will be event details
+    fn(emDetails.getEventDetails(event).getEmissionCxt());
   }
 }
