@@ -1,3 +1,7 @@
+## ./
+
+* Add a README.md
+
 ## @lib/handler-details.js
 
 * Add stack trace property that captures the stack trace on invocation of handler
