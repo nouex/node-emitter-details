@@ -1,4 +1,4 @@
 Node Emitter Details
 ====================
 
-##### Originally written around July of 2015 #####
+##### _Originally written around July of 2015_ #####
