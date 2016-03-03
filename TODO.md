@@ -1,6 +1,7 @@
 ## ./
 
 * ~~Add a README.md~~
+* Add .travis-ci
 
 ## @lib/handler-details.js
 
