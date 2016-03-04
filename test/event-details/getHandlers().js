@@ -1,20 +1,21 @@
 "use strict";
 
 var ED = require("../../lib/event-details.js");
+var assert = require ("assert");
 
 var ed = new ED();
-// log the blank instance
-console.log(ed);
-// now fill it in
+
 ed._addHandler(dummyA);
 ed._addHandler(dummyB);
 ed._addHandler(dummyC);
-// log packed ed
-console.log(ed);
-console.log("\n\n")
-// finally use the examined function
-console.log(ed.getHandlers());
-// handlers
+
+var handlers = ed.getHandlers();
+
+// in order as registered
+assert.strictEqual(handlers[0], dummyA);
+assert.strictEqual(handlers[1], dummyB);
+assert.strictEqual(handlers[2], dummyC);
+
 function dummyA() {
 
 }

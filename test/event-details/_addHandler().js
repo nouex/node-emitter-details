@@ -1,13 +1,14 @@
 "use strict";
 
 var EventDetails = require("../../lib/event-details.js");
+var assert = require("assert");
 
-var hd = new EventDetails();
+var ed = new EventDetails();
+var dummy = function dummy() {
 
-function dummy() {
+};
 
-}
+ed._addHandler(dummy);
 
-console.log("before:\n", hd);
-hd._addHandler(dummy)
-console.log("\nafter:\n", hd);
+assert.ok(ed.listeners[0] instanceof Array);
+assert.strictEqual(ed.listeners[0][0], dummy);

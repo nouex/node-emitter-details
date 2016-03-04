@@ -1,20 +1,17 @@
 "use strict";
 
 var ED = require("../../lib/event-details.js");
+var assert = require("assert");
 
 var ed = new ED();
-// log the blank instance
-console.log(ed);
+
 // now fill it in
 ed._addHandler(dummyA);
 ed._addHandler(dummyB);
 ed._addHandler(dummyC);
-// log packed ed
-console.log(ed);
-console.log("\n\n")
-// finally use the examined function
-console.log(ed.getHandlersDetails());
-// handlers
+
+assert.equal(typeof ed.getHandlersDetails(), "object");
+
 function dummyA() {
 
 }
