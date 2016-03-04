@@ -1,6 +1,7 @@
 "use strict";
 
 var oFE = require("../../lib/common.js").objForEach;
+var assert = require("assert");
 
 var subject = {
   "a": [],
@@ -9,10 +10,19 @@ var subject = {
   "d": {
     "aa": "double a"
   }
-};
-
-oFE(subject, iter, null);
+}, counter = 0;
 
 function iter(el, ind, obj) {
-  console.log("el:  ", el, "\n", "ind:  ", ind, "\n", "obj: ", obj, "\n\n");
+  var keys = Object.keys(subject);
+
+  // Because oFE() traverses in the order of `Object.keys()`, and the result's
+  // order is not to be relied on, this here is bad practice.  But anyways.
+
+  // assert key
+  assert.equal(ind, keys[counter]);
+  // assert element `===`
+  assert.strictEqual(el, subject[keys[counter++]]);
 };
+
+// test
+oFE(subject, iter, null);
