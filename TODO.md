@@ -4,6 +4,13 @@
 * Add .travis-ci
 * reaname lib/common.js to lib/helpers.js
 
+## @./index.js
+
+* If opts :: excludedEvents includes 'removeListener' or 'newListener'
+  then those lines let you skip over two important functinos.  That should not
+  be cause it's taking away the whole point of this project.  That's when alot
+  of the specs/details are updated.
+
 ## @lib/handler-details.js
 
 * Add stack trace property that captures the stack trace on invocation of handler
@@ -23,3 +30,9 @@
 ## @test
 
 * Remove captureStackTrace.js from this repository into ../../snippets
+
+## README.md
+
+* Make a note about the defaults that it includes such as attaching listeners
+  to the newListener and removeListener, and including genericEventRegulator
+  as a listener to any event registered via node-emitter-details
