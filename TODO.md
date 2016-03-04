@@ -17,6 +17,8 @@
 
 * Make `eventDetails` have a `name` property for the event name.
 
+* Use debug() within _removeHandler()
+
 ## @test
 
 * Remove captureStackTrace.js from this repository into ../../snippets
