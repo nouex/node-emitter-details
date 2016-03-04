@@ -2,6 +2,7 @@
 
 * ~~Add a README.md~~
 * Add .travis-ci
+* reaname lib/common.js to lib/helpers.js
 
 ## @lib/handler-details.js
 
