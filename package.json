@@ -1,0 +1,30 @@
+{
+  "name": "node-emitter-details",
+  "version": "1.0.0",
+  "description": "Provides specs for node's event emitters.",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "#raw description, does not work prop
+            for %f in (.\*) do node %f
+            for /D %s in (.\*) do [the above]"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reecehudson/node-emitter-details.git"
+  },
+  "keywords": [
+    "event",
+    "emitter",
+    "node"
+  ],
+  "author": "reecehudson <reecehudson10@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/reecehudson/node-emitter-details/issues"
+  },
+  "homepage": "https://github.com/reecehudson/node-emitter-details#readme"
+}
