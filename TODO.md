@@ -16,3 +16,7 @@
   eventDetails obj
 
 * Make `eventDetails` have a `name` property for the event name.
+
+## @test
+
+* Remove captureStackTrace.js from this repository into ../../snippets
