@@ -20,5 +20,6 @@ e.emit("event1");
 
 /*  ----- usage ----- */
 console.log ("Specs for '" + event1D.name + "':\n\n");
-console.log ("times called: " + event1D.timesEmitted);
-console.log ("stack trace:" + event1D._stackTrace);
+console.log ("times called: " + event1D.timesEmitted + "\n");
+// bit of a HACK, could have used `getHandlerDetails()`
+console.log ("stack trace:" + event1D.listeners[0][1].prevStackTrace + "\n");

@@ -111,13 +111,17 @@ function getEmitterDetails(emitter, opts) {
 
       evDetails.timesEmitted++;
       evDetails.prevArgs = common.copy(arguments);
+      // use the call site to get cxt
+      evDetails.calledCxt = callSite.getThis() || callSite.getTypeName();
       // capturing stack trace
       Error.captureStackTrace(err, genericEventRegulator);
       stackTrace = err.stack.slice(6, err.stack.length);
-      evDetails._stackTrace = stackTrace;
-      // use the call site to get cxt
-      evDetails.calledCxt = callSite.getThis() || callSite.getTypeName();
-      // after updating, emit itself and pass in eventDetails
+      // update 'prevStackTrace' on all listeners
+      evDetails.listeners.forEach(function (handler) {
+        var hdlrDetails = handler[1];
+        hdlrDetails.prevStackTrace = stackTrace;
+      }, null);
+      // after updating, emit itself and pass in eventDetails for async
       genericEventRegulator.emit(event, evDetails);
     }
   }

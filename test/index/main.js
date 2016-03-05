@@ -53,7 +53,11 @@ assert.ok(d1.events.event1.dateCreated instanceof Date,
 // parent should have been assigned by now
 assert.notEqual(undefined, d1.events.event1.parent, "parent is null");
 // genericEventRegulator has not been called so
-assert.equal(null, d1.events.event1._stackTrace, "_stackTrace should be empty");
+assert.equal(
+  null,
+  d1.events.event1.getHandlerDetails(event1Dummy1).prevStackTrace,
+  "`prevStackTrace` should be empty"
+);
 // emitting events
 e1.emit("event1");
 e1.emit("event1", "bon", "jour");
@@ -61,7 +65,7 @@ e1.emit("event2");
 // assert the above
 assert.equal(2, d1.events.event1.timesEmitted, "'timesEmitted' is off");
 assert.equal("jour", d1.events.event1.prevArgs[1], "'prevArgs' is off");
-assert.notEqual(undefined, d1.events.event1._stackTrace);
+assert.notEqual(undefined, d1.events.event1.listeners[0][1].prevStackTrace);
 assert.deepEqual(["event1", "event2"], d1.emittedEvents);
 // removing events
 assert.equal(3, d1.events.event1.listeners.length);

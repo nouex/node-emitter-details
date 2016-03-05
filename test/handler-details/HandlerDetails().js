@@ -13,8 +13,8 @@ var hd = new HandlerDetails(dummy);
 assert.equal(typeof hd.arity, "number");
 assert.equal(hd.arity, 2)
 
-// stackTrace prop, undefined != hd.stackTrace
-assert.equal(true, "stackTrace" in hd);
+// stackTrace prop, not defined != hd.prevStackTrace
+assert.equal(true, "prevStackTrace" in hd);
 
 // parent prop, set to null as default
 assert.strictEqual(null, hd.parent);
