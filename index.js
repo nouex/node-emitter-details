@@ -7,7 +7,7 @@ var EmitterDetails = require("./lib/emitter-details.js");
 var EventDetails = require("./lib/event-details.js");
 var HandlerDetails = require("./lib/handler-details.js");
 var common = require("./lib/common.js");
-var tool = require("../tools");
+var getCallSite = require("./lib/stack-trace.js");
 
 /**
 * @api public
@@ -79,6 +79,7 @@ function getEmitterDetails(emitter, opts) {
     if (util.isNull(evDetails = emitterDetails.getEventDetails(event))) {
       emitterDetails._addEvent(event, listener);
       evDetails = emitterDetails.getEventDetails(event);
+      // for async i think
       evDetails.genericEventRegulator = genericEventRegulator;
       evDetails.name = event;
       if (!(event === "newListener" || event === "removeListener"))
@@ -100,15 +101,22 @@ function getEmitterDetails(emitter, opts) {
     helper = null;
 
     function genericEventRegulator() {
-      var stackTrace;
+      var stackTrace, err = new Error,
+          callSite = getCallSite(genericEventRegulator, 0);
+
+      // update events of emitter
+      if (!~emitterDetails.emittedEvents.indexOf(event)) {
+        emitterDetails.emittedEvents.push(event);
+      }
+
       evDetails.timesEmitted++;
       evDetails.prevArgs = common.copy(arguments);
       // capturing stack trace
-      var err = new Error;
       Error.captureStackTrace(err, genericEventRegulator);
       stackTrace = err.stack.slice(6, err.stack.length);
       evDetails._stackTrace = stackTrace;
-      evDetails._callSite = tool.getCallSite(0, genericEventRegulator);
+      // use the call site to get cxt
+      evDetails.calledCxt = callSite.getThis() || callSite.getTypeName();
       // after updating, emit itself and pass in eventDetails
       genericEventRegulator.emit(event, evDetails);
     }
