@@ -1,16 +1,9 @@
 "use strict";
 var util = require("util");
 var EE = require("events");
-var tool = require("../../tools");
+
 var emitterDetails = require("../");
 
-function testee(emitter, event) {
-  var emD = emitterDetails(emitter);
-  var res = tool.callSiteInfo(emD.calledCxt);
-  return re;
-}
-
-/*  ----- usage ----- */
 util.inherits(E, EE);
 function E() {
   EE.call(this);
@@ -21,7 +14,11 @@ e.on("event1", function(){
   console.log("event1 fired now");
 });
 
-var emD = emitterDetails(e);
-var evD = emD.getEventDetails("event1");
+var eD = emitterDetails(e);
+var event1D = eD.getEventDetails("event1");
 e.emit("event1");
-tool.logExit(evD.getEmissionCxt() === e);
+
+/*  ----- usage ----- */
+console.log ("Specs for '" + event1D.name + "':\n\n");
+console.log ("times called: " + event1D.timesEmitted);
+console.log ("stack trace:" + event1D._stackTrace);
