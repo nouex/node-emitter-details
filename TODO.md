@@ -5,6 +5,7 @@
 * reaname lib/common.js to lib/helpers.js
 * change _stackTrace
 * next time, don't use a TODO like this, use pull request and issues on github to track them intead of this
+* change '.parent' to '._parent'
 
 ## @./index.js
 
