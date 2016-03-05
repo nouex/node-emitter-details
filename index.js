@@ -6,7 +6,7 @@ var assert = require("assert");
 var EmitterDetails = require("./lib/emitter-details.js");
 var EventDetails = require("./lib/event-details.js");
 var HandlerDetails = require("./lib/handler-details.js");
-var common = require("./lib/common.js");
+var helpers = require("./lib/helpers.js");
 var getCallSite = require("./lib/stack-trace.js");
 
 /**
@@ -37,7 +37,7 @@ function getEmitterDetails(emitter, opts) {
   var emitterDetails = new EmitterDetails(emitter);
 
   // update registered events to detailed events
-  var _events = common.copy(emitter._events);
+  var _events = helpers.copy(emitter._events);
   var xEvents = opts.excludedEvents;
   // special case handlers are added now
   [["newListener", onNewListener], ["removeListener", onRemoveListener]].forEach(function(pair) {
@@ -111,7 +111,7 @@ function getEmitterDetails(emitter, opts) {
       }
 
       evDetails.timesEmitted++;
-      evDetails.prevArgs = common.copy(arguments);
+      evDetails.prevArgs = helpers.copy(arguments);
       // use the call site to get cxt
       evDetails.calledCxt = callSite.getThis() || callSite.getTypeName();
       // capturing stack trace

@@ -1,6 +1,6 @@
 "use strict";
 
-var oFE = require("../../lib/common.js").objForEach;
+var oFE = require("../../lib/helpers.js").objForEach;
 var assert = require("assert");
 
 var subject = {

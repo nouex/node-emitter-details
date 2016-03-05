@@ -2,8 +2,8 @@
 
 * ~~Add a README.md~~
 * Add .travis-ci
-* reaname lib/common.js to lib/helpers.js
-* change _stackTrace
+* reaname lib/helpers.js to lib/helpers.js
+* ~~change _stackTrace~~
 * next time, don't use a TODO like this, use pull request and issues on github to track them intead of this
 * change '.parent' to '._parent'
 
