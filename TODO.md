@@ -35,8 +35,7 @@
 * Remove captureStackTrace.js from this repository into ../../snippets
 * **add to 'test/index' a script where all options are tested (once there
   are more options to test obviously)**
-* **add a section in 'test/index/main.js' to document and test all          properties that are updated outside of the constructor function's body,
-  as of now it is mainly done in 'genericEventRegulator'**
+* **test async mode**
 
 
 ## README.md
