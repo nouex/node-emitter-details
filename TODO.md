@@ -3,6 +3,7 @@
 * ~~Add a README.md~~
 * Add .travis-ci
 * reaname lib/common.js to lib/helpers.js
+* change _stackTrace
 
 ## @./index.js
 
