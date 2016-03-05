@@ -6,7 +6,7 @@ var emitterDetails = require("../");
 
 function testee(emitter, event) {
   var emD = emitterDetails(emitter);
-  var res = tool.callSiteInfo(emD._callSite);
+  var res = tool.callSiteInfo(emD.calledCxt);
   return re;
 }
 
