@@ -51,7 +51,7 @@ assert.ok("event2" in d1.events, "'event2' did not register");
 assert.ok(d1.events.event1.dateCreated instanceof Date,
           "dateCreated stamp is not instanceof `Date`");
 // parent should have been assigned by now
-assert.notEqual(undefined, d1.events.event1.parent, "parent is null");
+assert.notEqual(undefined, d1.events.event1._parent, "parent is null");
 // genericEventRegulator has not been called so
 assert.equal(
   null,

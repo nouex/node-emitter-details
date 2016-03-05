@@ -26,5 +26,5 @@ function dummyC() {
 ehD = ed.getHandlerDetails(dummyB);
 
 // just a couple of known props out the top of ma head
-assert.notEqual(null, ehD.parent);
+assert.notEqual(null, ehD._parent);
 assert.ok ("arity" in ehD);
