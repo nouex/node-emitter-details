@@ -77,6 +77,20 @@ e1.removeListener("event1", event1Dummy2);
 // b/c opts:saveInactiveEventDetails is explicitly on in opts, we can assert
 assert.ok(("event1" in d1.events));
 
+// test asyn EventDetails.prototype.onUpdate()
+(function () {
+  var e, emD, ev1D, asyncEv1D;
+    e = createEmitter();
+    emD = getDetails(e);
+
+    e.on("event1", function noop () {});
+    ev1D = emD.getEventDetails("event1");
+    emD.getEventDetails("event1").onUpdate(function () {
+      asyncEv1D = arguments[0];
+      assert.strictEqual(ad, d);
+    });
+})();
+
 /* The nex part of this test consists of checking that the options work */
 
 // options :: saveInactiveEventDetails
