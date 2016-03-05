@@ -4,6 +4,7 @@
 * Add .travis-ci
 * reaname lib/common.js to lib/helpers.js
 * change _stackTrace
+* next time, don't use a TODO like this, use pull request and issues on github to track them intead of this
 
 ## @./index.js
 
