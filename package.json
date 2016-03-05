@@ -8,9 +8,6 @@
     "test": "test"
   },
   "scripts": {
-    "test": "#raw description, does not work prop
-            for %f in (.\*) do node %f
-            for /D %s in (.\*) do [the above]"
   },
   "repository": {
     "type": "git",
