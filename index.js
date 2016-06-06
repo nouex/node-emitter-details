@@ -83,7 +83,7 @@ function getEmitterDetails(emitter, opts) {
       evDetails.genericEventRegulator = genericEventRegulator;
       evDetails.name = event;
       if (!(event === "newListener" || event === "removeListener"))
-        emitter.on(event, genericEventRegulator);
+        EE.prototype.on.call(emitter, event, genericEventRegulator);
     } else {
       // TODO make sure genericEventRegulator is set i.e. debug(...)
       evDetails._addHandler(listener);
