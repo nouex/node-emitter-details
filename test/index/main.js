@@ -147,3 +147,14 @@ assert.ok(("event1" in d1.events));
     ["newListener", "removeListener", "event1", "event3"], Object.keys(d.events)
   );
 }());
+
+// trackEvent()
+(function () {
+  var e = new EE(), ev = "turn-on",
+      evDetails;
+
+  evDetails = getDetails.trackEvent(e, ev);
+  // make sure its strictEqual and not a copy so we are assured that the stats
+  // are updated live
+  assert.strictEqual(evDetails, evDetails._parent.events[ev]);
+})();

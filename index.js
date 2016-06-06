@@ -156,3 +156,20 @@ exp.cxtOfEmission = function(emitter, event, fn) {
     fn(emDetails.getEventDetails(event).getEmissionCxt());
   }
 }
+
+/**
+* @api public
+* @param {EventEmitter} emitter
+* @param {String} event Event to track
+* @return {Object} evDetails
+*
+* Creates an EmitterDetails obj.  Registers the event. Returns instance of
+* EventDetails.  Intended use is when the listener for the event is irrelevant,
+* i.e., we only want to *quickly-n-easily* spy on the event to get stats on it.
+*/
+exp.trackEvent = function (emitter, event) {
+  var NOP = Object.getPrototypeOf(Function);
+
+  EE.prototype.on.call(emitter, event, NOP);
+  return exp(emitter).getEventDetails(event);
+};
