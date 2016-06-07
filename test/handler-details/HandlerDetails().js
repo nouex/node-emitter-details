@@ -17,4 +17,4 @@ assert.equal(hd.arity, 2)
 assert.equal(true, "prevStackTrace" in hd);
 
 // parent prop, set to null as default
-assert.strictEqual(null, hd._parent);
+assert.strictEqual(null, hd.parent);
