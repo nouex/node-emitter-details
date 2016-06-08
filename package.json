@@ -8,6 +8,7 @@
     "test": "test"
   },
   "scripts": {
+    "test": "test.bat"
   },
   "repository": {
     "type": "git",
