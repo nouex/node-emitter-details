@@ -28,7 +28,7 @@ put(util.inspect(d, {
     }));
 
 ```
-Output:
+Output:<br/>
 ![Output of Script](./log-details-output.png)
 
 API
