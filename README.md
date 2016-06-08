@@ -29,6 +29,8 @@ put(util.inspect(d, {
 
 ```
 Output:
+<br/>
+<br/>
 ![Output of Script](./log-details-output.png)
 
 API
