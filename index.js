@@ -136,8 +136,8 @@ function getEmitterDetails(emitter, opts) {
 
     evDetails._removeHandler(listener);
     if (emitter.listeners(event).length === 1 && emitter.listeners(event)[0].name === "genericEventRegulator") {
-      // FIXME emitter.removeListener(event, genericEventRegulator);
-      // genericEventRegulator is out of scope so...
+      // NOTE: we want `emitter.removeListener(event, genericEventRegulator)`
+      // but genericEventRegulator is out of scope so...
       emitter.removeAllListeners(event);
       if (!opts.saveInactiveEventDetails) {
         delete emitterDetails.events[event];
