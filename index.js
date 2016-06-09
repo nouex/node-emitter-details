@@ -7,8 +7,9 @@ var EmitterDetails = require("./lib/emitter-details.js");
 var EventDetails = require("./lib/event-details.js");
 var HandlerDetails = require("./lib/handler-details.js");
 var helpers = require("./lib/helpers.js");
-var getCallSite = require("./lib/trace.js");
+var getCallSite = require("./lib/trace.js").getCallSite;
 var debug = require("debug")("node-emitter-details");
+var getStackTrace = require("./lib/trace.js").getStackTrace;
 
 /**
 * @api public
@@ -86,7 +87,6 @@ function getEmitterDetails(emitter, opts) {
       if (!(event === "newListener" || event === "removeListener"))
         EE.prototype.on.call(emitter, event, genericEventRegulator);
     } else {
-      // TODO make sure genericEventRegulator is set i.e. debug(...)
       evDetails._addHandler(listener);
     }
     // make genericEventRegulator an emitter, this is for
@@ -112,14 +112,9 @@ function getEmitterDetails(emitter, opts) {
 
       evDetails.timesEmitted++;
       evDetails.prevArgs = helpers.copy(arguments);
-      // TODO use a method exposed by (new) lib/trace.js object
-      // use the call site to get cxt
       // FIXME disabled for now until we figure it out
       // evDetails.calledCxt = callSite.getThis() || callSite.getTypeName();
-      // capturing stack trace
-      // TODO see previous todo
-      Error.captureStackTrace(err, genericEventRegulator);
-      stackTrace = err.stack.slice(6, err.stack.length);
+      stackTrace = getStackTrace(genericEventRegulator);
       // update 'prevStackTrace' on all listeners
       evDetails.listeners.forEach(function (handler) {
         var hdlrDetails = handler[1];
