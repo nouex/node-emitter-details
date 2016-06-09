@@ -89,8 +89,7 @@ function getEmitterDetails(emitter, opts) {
     } else {
       evDetails._addHandler(listener);
     }
-    // make genericEventRegulator an emitter, this is for
-    // async getEmissionCxt to listen on & maybe future add-ons
+
     var helper;
     // FIXME why __proto__ x2
     genericEventRegulator.__proto__.__proto__ = EE.prototype;
