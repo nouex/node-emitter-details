@@ -78,9 +78,7 @@ function getEmitterDetails(emitter, opts) {
     }
 
     if (util.isNull(evDetails = emitterDetails.getEventDetails(event))) {
-      // FIXME following two lines search twice, could u search once??
-      emitterDetails._addEvent(event, listener);
-      evDetails = emitterDetails.getEventDetails(event);
+      evDetails = emitterDetails._addEvent(event, listener);
       // for @lib/event-details.js onUpdate()
       evDetails.genericEventRegulator = genericEventRegulator;
       evDetails.name = event;

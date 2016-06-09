@@ -22,3 +22,16 @@ var eventDetails1;
 details1._addEvent("sampleE", function dummy1() {});
 assert.notEqual(undefined, eventDetails1 = details1.getEventDetails("sampleE"));
 assert.equal(eventDetails1.listeners.length, 1);
+
+// return
+(function () {
+  var e = createEmitter();
+  var d = new Details(e);
+  var e1 = Object.create(null);
+
+  // HACK: registered event
+  d.events["event1"] = e1;
+  assert.strictEqual(d._addEvent("event1", []), e1);
+  // non-registered event
+  assert.ok(d._addEvent("event2", []));
+})()
