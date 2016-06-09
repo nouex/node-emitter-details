@@ -8,6 +8,7 @@ var EventDetails = require("./lib/event-details.js");
 var HandlerDetails = require("./lib/handler-details.js");
 var helpers = require("./lib/helpers.js");
 var getCallSite = require("./lib/stack-trace.js");
+var debug = require("debug")("node-emitter-details");
 
 /**
 * @api public
