@@ -26,7 +26,6 @@ function getEmitterDetails(emitter, opts) {
 
     opts = util.isObject(opts) ? opts : Object.create(null);
     exEvs = opts.excludedEvents;
-    // FIXME ???
     opts.excludedEvents = util.isArray(exEvs) ? exEvs : [];
     opts.saveInactiveEventDetails = !!opts.saveInactiveEventDetails;
   }())
