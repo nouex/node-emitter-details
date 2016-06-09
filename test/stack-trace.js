@@ -19,8 +19,8 @@ function a() {
     c()
     function c() {
       d()
-      function d() {// FIXME use null instead
-        cs = getCallSite (undefined, 0);
+      function d() {
+        cs = getCallSite (null, 0);
       }
     }
   }
