@@ -1,7 +1,7 @@
 "use strict";
 
 // imports
-var getCallSite = require("../lib/stack-trace.js");
+var getCallSite = require("../lib/trace.js");
 var assert = require("assert");
 
 // a few props that identify a call site obj
