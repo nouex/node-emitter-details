@@ -4,6 +4,7 @@
 var getCallSite = require("../lib/trace.js").getCallSite;
 var assert = require("assert");
 var getStackTrace = require("../lib/trace.js").getStackTrace;
+var path = require("path");
 
 // a few props that identify a call site obj
 var callSiteProps = [
@@ -39,7 +40,7 @@ callSiteProps.forEach(function (name) {
 
   s1 = "    at tester2 ";
   s2 = "(" +  process.cwd();
-  s3 = "\\test\\stack-trace.js";
+  s3 = path.sep + "test" + path.sep + "stack-trace.js";
   tstr = s1 + s2 + s3;
   tlen = tstr.length;
   // include this IIFE in stack trace
