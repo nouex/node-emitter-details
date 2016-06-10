@@ -3,5 +3,5 @@ node_js:
     - "4.1"
 script:
   - node test/travis-ci.js
-  - node test/common/objForEach().js
-  - node test/emitter-details/_addevent().js
+  - node test/common/objForEach.js
+  - node test/emitter-details/_addEvent.js
