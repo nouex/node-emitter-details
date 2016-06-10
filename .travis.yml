@@ -1,4 +1,7 @@
 language: node_js
 node_js:
-    - "stable"
-    - "0.12"
+    - "4.x"
+script:
+  - node test/travis-ci.js
+  - node test/common/objForEach().js
+  - node test/emitter-details/_addevent().js
