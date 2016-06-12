@@ -1,5 +1,7 @@
 <!-- Since I cannot figure out how to put anchor links, I have replaced it with
      simply embolding the name of the header.  TODO use anchor links -->
+     
+![build status badge](https://travis-ci.org/reecehudson/node-emitter-details.svg)
 
 Node Emitter Details
 ====================
