@@ -40,7 +40,9 @@ callSiteProps.forEach(function (name) {
 
   s1 = "    at tester2 ";
   s2 = "(" +  process.cwd();
-  s3 = path.sep + "test" + path.sep + "stack-trace.js";
+  // NOTE we do not include 'test/' because that *should be* the CD as is
+  // changed by test.bat
+  s3 = path.sep + "stack-trace.js";
   tstr = s1 + s2 + s3;
   tlen = tstr.length;
   // include this IIFE in stack trace
