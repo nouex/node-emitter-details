@@ -23,22 +23,24 @@ function getEmitterDetails(emitter, opts) {
 
   /* ----- filter args ----- */
 
-  (function normalizeOpts() {
+  emitterDetails = new EmitterDetails(emitter);
+  (function normalizeOpts(that) {
     var exEvs;
 
     opts = util.isObject(opts) ? opts : Object.create(null);
     exEvs = opts.excludedEvents;
     opts.excludedEvents = util.isArray(exEvs) ? exEvs : [];
     opts.saveInactiveEventDetails = !!opts.saveInactiveEventDetails;
-  }())
+    that.opts = opts;
+  }(emitterDetails))
 
   assert.ok(emitter instanceof EE, "arg must be an Event Emitter");
 
   /* ----- main body: update emitter details & add crucial handlers ----- */
 
-  var emitterDetails = new EmitterDetails(emitter);
+  var emitterDetails;
   var _events = helpers.copy(emitter._events);
-  var xEvents = opts.excludedEvents;
+  var xEvents = emitterDetails.opts.excludedEvents;
 
   // special-case handlers are added now
   [["newListener", onNewListener], ["removeListener", onRemoveListener]].forEach(function(pair) {
@@ -75,7 +77,7 @@ function getEmitterDetails(emitter, opts) {
   function onNewListener(event, listener) {
     var evDetails;
 
-    if (~opts.excludedEvents.indexOf(event)) {
+    if (~emitterDetails.opts.excludedEvents.indexOf(event)) {
       return;
     }
 
@@ -134,7 +136,7 @@ function getEmitterDetails(emitter, opts) {
       // NOTE: we want `emitter.removeListener(event, genericEventRegulator)`
       // but genericEventRegulator is out of scope so...
       emitter.removeAllListeners(event);
-      if (!opts.saveInactiveEventDetails) {
+      if (!emitterDetails.opts.saveInactiveEventDetails) {
         delete emitterDetails.events[event];
       }
     }
