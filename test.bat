@@ -3,8 +3,22 @@ REM assuming CD is currently at root of project
 SET DEBUG=node-emitter-details
 CD ./test
 REM double quotes around %%f are needed cause the filename has a space
-FOR /r %%f IN (*) DO  ( ECHO NODE TESTING: & ECHO. %%f & ECHO ---
-  node "%%f" )
+FOR /r %%f IN (*) DO (
+  REM get file name
+  FOR %%F in ("%%f") DO (
+    IF "%%~nxF"=="stack-trace.js" (
+      IF %IS_TRAVIS_CI%==true (
+      ECHO SKIPPING %%~nxF
+      ) ELSE (
+      ECHO NODE TESTING: & ECHO. %%~nxF & ECHO ---
+      node "%%f"
+      )
+    ) ELSE (
+      ECHO NODE TESTING: & ECHO. %%~nxF & ECHO ---
+      node "%%f"
+    )
+  )
+)
 CD ../
 
 REM TODO use colors to output progress
