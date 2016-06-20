@@ -25,11 +25,13 @@ function getEmitterDetails(emitter, opts) {
 
   emitterDetails = new EmitterDetails(emitter);
   (function normalizeOpts(that) {
-    var exEvs;
+    var exEvs, exHds;
 
     opts = util.isObject(opts) ? opts : Object.create(null);
     exEvs = opts.excludedEvents;
+    exHds = opts.excludedHandlers;
     opts.excludedEvents = util.isArray(exEvs) ? exEvs : [];
+    opts.excludedHandlers = util.isArray(exHds) ? exHds : [];
     opts.saveInactiveEventDetails = !!opts.saveInactiveEventDetails;
     that.opts = opts;
   }(emitterDetails))
@@ -77,7 +79,10 @@ function getEmitterDetails(emitter, opts) {
   function onNewListener(event, listener) {
     var evDetails;
 
-    if (~emitterDetails.opts.excludedEvents.indexOf(event)) {
+    if (
+        ~emitterDetails.opts.excludedEvents.indexOf(event) ||
+        ~emitterDetails.opts.excludedHandlers.indexOf(listener)
+      ) {
       return;
     }
 
