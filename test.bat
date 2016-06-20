@@ -8,7 +8,7 @@ FOR /r %%f IN (*) DO (
   REM get file name
   FOR %%F in ("%%f") DO (
     IF "%%~nxF"=="stack-trace.js" (
-      IF %CI%==true (
+      IF CI==true (
       ECHO SKIPPING %%~nxF
       ) ELSE (
       ECHO NODE TESTING: & ECHO. %%~nxF & ECHO ---
