@@ -1,6 +1,6 @@
 <!-- Since I cannot figure out how to put anchor links, I have replaced it with
      simply embolding the name of the header.  TODO use anchor links -->
-     
+
 ![build status badge](https://travis-ci.org/reecehudson/node-emitter-details.svg)
 
 Node Emitter Details
@@ -127,7 +127,7 @@ When **exp** is:
 * `onUpdate(fn)`
   * `fn` callback, called next time there is an change of properties.  This
     happens when any of the events pertaining to the parent object are emitted.
-    Receives, two arguments: event, and event details object.
+    Event details instance is passed as the only arguments.
 
 #### Handler Details ####
 * `arity`

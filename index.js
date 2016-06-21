@@ -88,7 +88,7 @@ function getEmitterDetails(emitter, opts) {
 
     if (util.isNull(evDetails = emitterDetails.getEventDetails(event))) {
       evDetails = emitterDetails._addEvent(event, listener);
-      // for @lib/event-details.js onUpdate()
+      // used in lib/event-details.js onUpdate()
       evDetails.genericEventRegulator = genericEventRegulator;
       evDetails.name = event;
       if (!(event === "newListener" || event === "removeListener"))
