@@ -15,4 +15,4 @@ script:
   - node test/handler-details/HandlerDetails.js
   - node test/index/main.js
 env:
-    - IS_TRAVIS_CI="true"
+    - TOT_TESTED_FILES=0
