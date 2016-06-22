@@ -1,18 +1,17 @@
 "use strict";
 
-(function (env) {
-  var debugCI = require("debug")("travis-count-tests");
+var debugCI = require("debug")("travis-count-tests");
 
-  (function (env) {
-    if (!(process.env.CI === "true" && process.env.TRAVIS === "true")) return;
-    env.TOT_TESTED_FILES = Number(env.TOT_TESTED_FILES) +1;
-    debugCI(
-          "TOT_TESTED_FILES @",
-          __filename.split(/\\|\//).pop(),
-          "=",
-          env.TOT_TESTED_FILES
-        );
-  }(process.env));
+(function (env) {
+  if (!(process.env.CI === "true" && process.env.TRAVIS === "true")) return;
+  env.TOT_TESTED_FILES = Number(env.TOT_TESTED_FILES) +1;
+  debugCI(
+        "TOT_TESTED_FILES @",
+        __filename.split(/\\|\//).pop(),
+        "=",
+        env.TOT_TESTED_FILES
+      );
+}(process.env));
 
 var Details = require("../../lib/emitter-details.js");
 var assert = require("assert");
