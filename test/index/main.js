@@ -1,4 +1,9 @@
 "use strict";
+(function (env) {
+  if (!(process.env.CI === "true" && process.env.TRAVIS === "true")) return;
+  env.TOT_TESTED_FILES = Number(env.TOT_TESTED_FILES) +1;
+}(process.env));
+
 /**
 * Here we test the whole shebang.  Sinc it's alot, we're just gonna assert a
 * couple of what-should-be-there's in all three levels of emitter, event, handler.

@@ -7,12 +7,18 @@ script:
   - node test/common/objForEach.js
   - node test/emitter-details/_addEvent.js
   - node test/emitter-details/getEventDetails.js
+  - node test/emitter-details/excludeEvent.js
   - node test/event-details/_addHandler.js
   - node test/event-details/_removeHandler.js
+  - node test/event-details/excludeHandler.js
   - node test/event-details/getHandlerDetails.js
   - node test/event-details/getHandlers.js
   - node test/event-details/getHandlersDetails.js
+  - node test/event-details/onUpdate.js
   - node test/handler-details/HandlerDetails.js
   - node test/index/main.js
+  # must always go last
+  - node travis-count-tests.js
 env:
-    - IS_TRAVIS_CI="true"
+  global:
+    - TOT_TESTED_FILES=0 DEBUG=travis-count-tests

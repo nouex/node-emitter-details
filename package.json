@@ -25,7 +25,7 @@
     "url": "https://github.com/reecehudson/node-emitter-details/issues"
   },
   "homepage": "https://github.com/reecehudson/node-emitter-details#readme",
-  "dependencies": {
-    "debug": "2.2.0"
+  "devDependencies": {
+    "debug": "^2.2.0"
   }
 }
