@@ -27,6 +27,7 @@ var path = require("path");
 
 var expect, actual;
 
+debug("__dirname = %s", __dirname);
 expect = countFilesDeep(__dirname, __dirname);
 actual = +process.env.TOT_TESTED_FILES;
 if (isNaN(actual)) throw new Error("TOT_TESTED_FILES not set");
