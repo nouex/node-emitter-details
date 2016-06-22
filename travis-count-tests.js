@@ -25,10 +25,11 @@ if (!(process.env.CI === "true" && process.env.TRAVIS === "true")) {
 var fs = require("fs");
 var path = require("path");
 
-var expect, actual;
+var expect, actual, dirname
 
-debug("__dirname = %s", __dirname);
-expect = countFilesDeep(__dirname, __dirname);
+dirname = __dirname + path.sep + "test";
+debug("dirname = %s", dirname);
+expect = countFilesDeep(dirname, dirname);
 actual = +process.env.TOT_TESTED_FILES;
 if (isNaN(actual)) throw new Error("TOT_TESTED_FILES not set");
 debug("%d/%d tests ran", actual, expect);
