@@ -42,6 +42,7 @@ function countFilesDeep (dir, currDir) {
   var conts = fs.readdirSync(dir), tot = 0;
 
   conts.forEach(function (item) {
+    debug("item: %s", item);
     item = currDir + path.sep + item;
     fs.statSync(item).isDirectory() ? tot += countFilesDeep(item, item) : tot += 1;
   }, null);
