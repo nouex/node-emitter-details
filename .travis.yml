@@ -20,4 +20,5 @@ script:
   # must always go last
   - node travis-count-tests.js
 env:
+  global:
     - TOT_TESTED_FILES=0 DEBUG=travis-count-tests
