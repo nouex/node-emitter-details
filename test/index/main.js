@@ -1,7 +1,7 @@
 "use strict";
 (function (env) {
   if (!(process.env.CI === "true" && process.env.TRAVIS === "true")) return;
-  env.TOT_TESTED_FILES = Number(env.TOT_TESTED_FILES) +1;
+  require("../../tot-tested.js").count++;
 }(process.env));
 
 /**
