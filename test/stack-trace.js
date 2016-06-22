@@ -41,7 +41,7 @@ function tester2() {
   var s1, s2, s3, tstr, tlen;
 
   s1 = "    at tester2 ";
-  s2 = "(" +  process.cwd();
+  s2 = "(" +  __dirname;
   // NOTE we do not include 'test/' because that *should be* the CD as is
   // changed by test.bat
   s3 = path.sep + "stack-trace.js";
