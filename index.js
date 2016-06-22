@@ -118,8 +118,6 @@ function getEmitterDetails(emitter, opts) {
 
       evDetails.timesEmitted++;
       evDetails.prevArgs = helpers.copy(arguments);
-      // FIXME disabled for now until we figure it out
-      // evDetails.calledCxt = callSite.getThis() || callSite.getTypeName();
       stackTrace = getStackTrace(genericEventRegulator);
       // update 'prevStackTrace' on all listeners
       evDetails.listeners.forEach(function (handler) {

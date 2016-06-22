@@ -97,12 +97,6 @@ When **exp** is:
 * `prevArgs`
   * Copy of `arguments` the listeners are supplied with.
 
-* ~~`calledCxt`~~
-  * ~~The context (`this`) of when `.emit()` was called~~
-  * **Note:**  This method is disabled because of unreliability.  That is, it
-    only works in non-strict mode.  I am currently deciding where I should take
-    this.
-
 *  `name`
   * String of the event name.
 
