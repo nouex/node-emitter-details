@@ -28,6 +28,7 @@ var expect, actual;
 expect = countFilesDeep(__dirname, __dirname);
 actual = +process.env.TOT_TESTED_FILES;
 if (isNaN(actual)) throw new Error("TOT_TESTED_FILES not set");
+console.log("%d/%d tests ran", actual, expect);
 assert.equal(
               expect,
               actual,
