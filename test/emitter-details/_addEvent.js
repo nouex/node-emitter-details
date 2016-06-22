@@ -1,5 +1,10 @@
 "use strict";
 
+(function (env) {
+  if (!(process.env.CI === "true" && process.env.TRAVIS === "true")) return;
+  env.TOT_TESTED_FILES = Number(env.TOT_TESTED_FILES) +1;
+}(process.env));
+
 var Details = require("../../lib/emitter-details.js");
 var EE = require("events");
 var util = require("util");

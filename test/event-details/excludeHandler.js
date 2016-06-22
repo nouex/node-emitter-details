@@ -1,5 +1,10 @@
 "use strict";
 
+(function (env) {
+  if (!(process.env.CI === "true" && process.env.TRAVIS === "true")) return;
+  env.TOT_TESTED_FILES = Number(env.TOT_TESTED_FILES) +1;
+}(process.env));
+
 var main = require("../../");
 var emitter = new (require("events"))();
 var assert = require("assert");

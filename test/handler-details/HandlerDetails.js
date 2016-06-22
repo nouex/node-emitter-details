@@ -1,5 +1,10 @@
 "use strict";
 
+(function (env) {
+  if (!(process.env.CI === "true" && process.env.TRAVIS === "true")) return;
+  env.TOT_TESTED_FILES = Number(env.TOT_TESTED_FILES) +1;
+}(process.env));
+
 var HandlerDetails = require("../../lib/handler-details.js");
 var assert = require("assert");
 
