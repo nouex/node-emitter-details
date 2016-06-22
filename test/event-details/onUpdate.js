@@ -1,12 +1,8 @@
 "use strict";
 
-var debugCI = require("debug")("travis-count-tests");
-
 (function (env) {
-  var countO = require("../../tot-tested.js");
   if (!(process.env.CI === "true" && process.env.TRAVIS === "true")) return;
-  countO.count++;
-  debugCI("count: %d", countO.count);
+  require("../../tot-tested.js").count++;
 }(process.env));
 
 var getDetails = require("../../");
