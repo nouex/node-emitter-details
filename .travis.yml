@@ -21,3 +21,4 @@ script:
   - node travis-count-tests.js
 env:
     - TOT_TESTED_FILES=0
+    - DEBUG=travis-count-tests

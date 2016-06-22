@@ -9,6 +9,8 @@
   * recurse *and* execute all test files
   */
 
+var debug = require("debug")("travis-count-tests"); // so now you may set
+// an env.DEBUG to this using the Travis GUI when u need to re-run builds
 var path = require("path");
 var assert = require("assert");
 
@@ -28,7 +30,7 @@ var expect, actual;
 expect = countFilesDeep(__dirname, __dirname);
 actual = +process.env.TOT_TESTED_FILES;
 if (isNaN(actual)) throw new Error("TOT_TESTED_FILES not set");
-console.log("%d/%d tests ran", actual, expect);
+debug("%d/%d tests ran", actual, expect);
 assert.equal(
               expect,
               actual,

@@ -3,6 +3,12 @@
 (function (env) {
   if (!(process.env.CI === "true" && process.env.TRAVIS === "true")) return;
   env.TOT_TESTED_FILES = Number(env.TOT_TESTED_FILES) +1;
+  debug(
+        "TOT_TESTED_FILES @",
+        __filename.split(/\\|\//).pop(),
+        "=",
+        env.TOT_TESTED_FILES
+      );
 }(process.env));
 
 var Details = require("../../lib/emitter-details.js");
