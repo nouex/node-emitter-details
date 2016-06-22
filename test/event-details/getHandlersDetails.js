@@ -2,7 +2,7 @@
 
 (function (env) {
   if (!(process.env.CI === "true" && process.env.TRAVIS === "true")) return;
-  require("../../tot-tested.js").count++;
+  env.TOT_TESTED_FILES = Number(env.TOT_TESTED_FILES) +1;
 }(process.env));
 
 var ED = require("../../lib/event-details.js");

@@ -30,7 +30,7 @@ var expect, actual, dirname
 dirname = __dirname + path.sep + "test";
 debug("dirname = %s", dirname);
 expect = countFilesDeep(dirname, dirname);
-actual = require("./tot-tested.js").count;
+actual = +process.env.TOT_TESTED_FILES;
 if (isNaN(actual)) throw new Error("TOT_TESTED_FILES not set");
 debug("%d/%d tests ran", actual, expect);
 assert.equal(
