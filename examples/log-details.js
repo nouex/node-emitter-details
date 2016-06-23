@@ -9,7 +9,7 @@ var put = function () {
 
 var e = new (require("events"))();
 e.on("action", function onAction (){});
-var d = getDetails(e, {excludedEvents: ["newListener", "removeListener"]});
+var d = getDetails(e, {excludeEvents: ["newListener", "removeListener"]});
 e.emit("action", "apple", "kills", "aman");
 
 

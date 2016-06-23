@@ -52,7 +52,7 @@ assert.ok(d1.events.event1.dateCreated instanceof Date,
           "dateCreated stamp is not instanceof `Date`");
 // parent should have been assigned by now
 assert.notEqual(undefined, d1.events.event1.parent, "parent is null");
-// genericEventRegulator has not been called so
+// _onUpdate has not been called so
 assert.equal(
   null,
   d1.events.event1.getHandlerDetails(event1Dummy1).prevStackTrace,
@@ -88,7 +88,7 @@ assert.ok(("event1" in d1.events));
     var event1dummy1;
 
     e.on("event1", event1dummy1 = function event1dummy1() {});
-    // 1 plus the default: genericEventRegulator
+    // 1 plus the default: _onUpdate
     assert.equal(2, d.events.event1.listeners.length);
     // remove now
     e.removeListener("event1", event1dummy1);
@@ -113,10 +113,10 @@ assert.ok(("event1" in d1.events));
   })();
 })();
 
-// options :: excludedEvents
+// options :: excludeEvents
 (function () {
   var opts = {
-    excludedEvents: [
+    excludeEvents: [
       "event2", "event4"
     ]
   };

@@ -5,7 +5,7 @@ var emitter = new (require("events"))();
 var assert = require("assert");
 
 var emitterDetails = main(emitter, {
-  excludedHandlers: [handlerOne]
+  excludeHandlers: [handlerOne]
 }), eventDetails, success = false;
 
 emitter.on("event1", handlerThree);

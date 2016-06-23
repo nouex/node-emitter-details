@@ -31,10 +31,10 @@ function getEmitterDetails(emitter, opts) {
     opts = typeof opts === "object" && opts !== null ?
             opts :
             Object.create(null);
-    exEvs = opts.excludedEvents;
-    exHds = opts.excludedHandlers;
-    opts.excludedEvents = Array.isArray(exEvs) ? exEvs : [];
-    opts.excludedHandlers = Array.isArray(exHds) ? exHds : [];
+    exEvs = opts.excludeEvents;
+    exHds = opts.excludeHandlers;
+    opts.excludeEvents = Array.isArray(exEvs) ? exEvs : [];
+    opts.excludeHandlers = Array.isArray(exHds) ? exHds : [];
     opts.saveInactiveEventDetails = !!opts.saveInactiveEventDetails;
     that.opts = opts;
   }(emitterDetails))
@@ -45,7 +45,7 @@ function getEmitterDetails(emitter, opts) {
 
   var emitterDetails;
   var _events = helpers.copy(emitter._events);
-  var xEvents = emitterDetails.opts.excludedEvents;
+  var xEvents = emitterDetails.opts.excludeEvents;
 
   // special-case handlers are added now
   [["newListener", onNewListener], ["removeListener", onRemoveListener]].forEach(function(pair) {
@@ -83,8 +83,8 @@ function getEmitterDetails(emitter, opts) {
     var evDetails;
 
     if (
-        ~emitterDetails.opts.excludedEvents.indexOf(event) ||
-        ~emitterDetails.opts.excludedHandlers.indexOf(listener)
+        ~emitterDetails.opts.excludeEvents.indexOf(event) ||
+        ~emitterDetails.opts.excludeHandlers.indexOf(listener)
       ) {
       return;
     }
@@ -92,28 +92,28 @@ function getEmitterDetails(emitter, opts) {
     if (null === (evDetails = emitterDetails.getEventDetails(event))) {
       evDetails = emitterDetails._addEvent(event, listener);
       // used in lib/event-details.js onUpdate()
-      evDetails.genericEventRegulator = genericEventRegulator;
+      evDetails._onUpdate = _onUpdate;
       evDetails.name = event;
       if (!(event === "newListener" || event === "removeListener"))
-        EE.prototype.on.call(emitter, event, genericEventRegulator);
+        EE.prototype.on.call(emitter, event, _onUpdate);
     } else {
       evDetails._addHandler(listener);
     }
 
     var helper;
     // FIXME why __proto__ x2
-    genericEventRegulator.__proto__.__proto__ = EE.prototype;
+    _onUpdate.__proto__.__proto__ = EE.prototype;
     function Helper() {
       EE.call(this);
     }
     Object.getOwnPropertyNames(helper = new Helper).forEach(function(prop) {
-      genericEventRegulator[prop] = helper[prop];
+      _onUpdate[prop] = helper[prop];
     });
     helper = null;
 
-    function genericEventRegulator() {
+    function _onUpdate() {
       var stackTrace, err = new Error,
-          callSite = getCallSite(genericEventRegulator, 0);
+          callSite = getCallSite(_onUpdate, 0);
 
       if (!~emitterDetails.emittedEvents.indexOf(event)) {
         emitterDetails.emittedEvents.push(event);
@@ -121,14 +121,14 @@ function getEmitterDetails(emitter, opts) {
 
       evDetails.timesEmitted++;
       evDetails.prevArgs = helpers.copy(arguments);
-      stackTrace = getStackTrace(genericEventRegulator);
+      stackTrace = getStackTrace(_onUpdate);
       // update 'prevStackTrace' on all listeners
       evDetails.listeners.forEach(function (handler) {
         var hdlrDetails = handler[1];
         hdlrDetails.prevStackTrace = stackTrace;
       }, null);
       // after updating, emit itself and pass in eventDetails for async
-      genericEventRegulator.emit(event, evDetails);
+      _onUpdate.emit(event, evDetails);
     }
   }
 
@@ -138,9 +138,9 @@ function getEmitterDetails(emitter, opts) {
       return;
 
     evDetails._removeHandler(listener);
-    if (emitter.listeners(event).length === 1 && emitter.listeners(event)[0].name === "genericEventRegulator") {
-      // NOTE: we want `emitter.removeListener(event, genericEventRegulator)`
-      // but genericEventRegulator is out of scope so...
+    if (emitter.listeners(event).length === 1 && emitter.listeners(event)[0].name === "_onUpdate") {
+      // NOTE: we want `emitter.removeListener(event, _onUpdate)`
+      // but _onUpdate is out of scope so...
       emitter.removeAllListeners(event);
       if (!emitterDetails.opts.saveInactiveEventDetails) {
         delete emitterDetails.events[event];

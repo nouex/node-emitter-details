@@ -20,7 +20,7 @@ var put = function () {
 
 var e = new (require("events"))();
 e.on("action", function onAction (){});
-var d = getDetails(e, {excludedEvents: ["newListener", "removeListener"]});
+var d = getDetails(e, {excludeEvents: ["newListener", "removeListener"]});
 e.emit("action", "apple", "kills", "aman");
 
 
@@ -46,9 +46,9 @@ When **exp** is:
 
   * `opts` an options object where:
 
-    * `excludedEvents`, is an array of events to disregard and not track
+    * `excludeEvents`, is an array of events to disregard and not track
 
-    * `excludedHandlers`, is an array of handlers to disregard and not track
+    * `excludeHandlers`, is an array of handlers to disregard and not track
 
     * `saveInactiveEventDetails`, is a boolean indicating if it should keep
       the memory of an EventDetails whose events have all been removed
@@ -106,10 +106,6 @@ When **exp** is:
 
 *  `name`
   * String of the event name.
-
-<!-- private internal
-* `genericEventRegulator`
-  * see **Generic Event Regulator** section -->
 
 * `parent`
   * Pointer to `EmitterDetails` that created it.
