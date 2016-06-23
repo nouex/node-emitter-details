@@ -1,7 +1,7 @@
 {
   "name": "node-emitter-details",
-  "version": "1.0.0",
-  "description": "Provides specs for node's event emitters.",
+  "version": "0.1.0",
+  "description": "Provide specs for node's event emitters.",
   "main": "index.js",
   "directories": {
     "example": "examples",
