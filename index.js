@@ -22,7 +22,8 @@ var exp = module.exports =
 function getEmitterDetails(emitter, opts) {
 
   /* ----- filter args ----- */
-  charge(emitter, EE);
+  // FIXME see #34
+  // charge(emitter, EE);
   emitterDetails = new EmitterDetails(emitter);
   (function normalizeOpts(that) {
     var exEvs, exHds;
