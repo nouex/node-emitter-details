@@ -28,11 +28,13 @@ function getEmitterDetails(emitter, opts) {
   (function normalizeOpts(that) {
     var exEvs, exHds;
 
-    opts = util.isObject(opts) ? opts : Object.create(null);
+    opts = typeof opts === "object" && opts !== null ?
+            opts :
+            Object.create(null);
     exEvs = opts.excludedEvents;
     exHds = opts.excludedHandlers;
-    opts.excludedEvents = util.isArray(exEvs) ? exEvs : [];
-    opts.excludedHandlers = util.isArray(exHds) ? exHds : [];
+    opts.excludedEvents = Array.isArray(exEvs) ? exEvs : [];
+    opts.excludedHandlers = Array.isArray(exHds) ? exHds : [];
     opts.saveInactiveEventDetails = !!opts.saveInactiveEventDetails;
     that.opts = opts;
   }(emitterDetails))
@@ -57,7 +59,7 @@ function getEmitterDetails(emitter, opts) {
     var handlers, event;
     if (!~xEvents.indexOf(name)) {
       event = _events[name];
-      handlers = util.isArray(event) ? event : [event];
+      handlers = Array.isArray(event) ? event : [event];
       handlers.forEach(function(fn) {
         onNewListener(name, fn);
       }, null);
@@ -87,7 +89,7 @@ function getEmitterDetails(emitter, opts) {
       return;
     }
 
-    if (util.isNull(evDetails = emitterDetails.getEventDetails(event))) {
+    if (null === (evDetails = emitterDetails.getEventDetails(event))) {
       evDetails = emitterDetails._addEvent(event, listener);
       // used in lib/event-details.js onUpdate()
       evDetails.genericEventRegulator = genericEventRegulator;
