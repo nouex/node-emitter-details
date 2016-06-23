@@ -6,13 +6,19 @@
 Node Emitter Details
 ====================
 
+Installation
+------------
+```cmd
+> npm install node-emitter-details
+```
+
 Example
 -------
 ```js
 "use strict";
 
 var util = require("util");
-var getDetails = require("./");
+var getDetails = require("node-emitter-details");
 var noop = function noop () {};
 var put = function () {
   process.stdout.write.call(process.stdout, arguments[0]);
@@ -39,7 +45,7 @@ API
 ---
 When **exp** is:
 ```js
-  var exp = require("./");
+  var exp = require("node-emitter-details");
 ```
 ### `exp(eventEmitter, [opts])` ###
   * `eventEmitter`, any instance of `EventEmitter`
