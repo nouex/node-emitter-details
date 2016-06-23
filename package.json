@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/reecehudson/node-emitter-details/issues"
   },
-  "homepage": "https://github.com/reecehudson/node-emitter-details#readme"
+  "homepage": "https://github.com/reecehudson/node-emitter-details#readme",
+  "dependencies": {
+    "ch-arge": "^1.x.x"
+  }
 }

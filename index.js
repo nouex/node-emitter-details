@@ -9,6 +9,7 @@ var HandlerDetails = require("./lib/handler-details.js");
 var helpers = require("./lib/helpers.js");
 var getCallSite = require("./lib/trace.js").getCallSite;
 var getStackTrace = require("./lib/trace.js").getStackTrace;
+var charge = require("ch-arge");
 
 /**
 * @api public
@@ -21,7 +22,7 @@ var exp = module.exports =
 function getEmitterDetails(emitter, opts) {
 
   /* ----- filter args ----- */
-
+  charge(emitter, EE);
   emitterDetails = new EmitterDetails(emitter);
   (function normalizeOpts(that) {
     var exEvs, exHds;
