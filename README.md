@@ -48,6 +48,8 @@ When **exp** is:
 
     * `excludedEvents`, is an array of events to disregard and not track
 
+    * `excludedHandlers`, is an array of handlers to disregard and not track
+
     * `saveInactiveEventDetails`, is a boolean indicating if it should keep
       the memory of an EventDetails whose events have all been removed
       (inactive)
@@ -82,6 +84,11 @@ When **exp** is:
   * `eName`, event name as a string
 
   * returns the `EventDetails` (see **EventDetails**) of the event or `null`
+
+* `excludeEvent(eName)`
+  * `eName`, event name as a string
+
+  * excludes the event from being tracked
 
 #### Event Details ####
 * `listeners`
@@ -122,6 +129,9 @@ When **exp** is:
   * `fn` callback, called next time there is an change of properties.  This
     happens when any of the events pertaining to the parent object are emitted.
     Event details instance is passed as the only arguments.
+
+* `excludeHandler(handler)`
+  * `handler`, function to exclude fro being tracked
 
 #### Handler Details ####
 * `arity`
