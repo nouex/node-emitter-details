@@ -13,7 +13,7 @@ var getStackTrace = require("./lib/trace.js").getStackTrace;
 /**
 * @api public
 * @param {EventEmitter} emitter
-* @param {Object} opts
+* @param {Object} [opts]
 * @return {Object} emitterDetails
 * Wraps the passed-in emitter, returning the stats object
 */
