@@ -22,8 +22,8 @@ var exp = module.exports =
 function getEmitterDetails(emitter, opts) {
 
   /* ----- filter args ----- */
-  // FIXME see #34
-  // charge(emitter, EE);
+  charge(emitter, EE, {message: "arg 1 must be an event emitter"});
+  charge(opts, "obj undefined", {message: "arg 2 must be an opts object or undefined"});
   emitterDetails = new EmitterDetails(emitter);
   (function normalizeOpts(that) {
     var exEvs, exHds;
@@ -160,6 +160,8 @@ function getEmitterDetails(emitter, opts) {
 * i.e., we only want to *quickly-n-easily* spy on the event to get stats on it.
 */
 exp.trackEvent = function (emitter, event) {
+  charge(emitter, EE, {message: "arg 1 must be an event emitter"});
+  charge(event, String, "arg 2 must be a string");
   var NOP = Object.getPrototypeOf(Function);
 
   EE.prototype.on.call(emitter, event, NOP);

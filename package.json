@@ -26,6 +26,6 @@
   },
   "homepage": "https://github.com/reecehudson/node-emitter-details#readme",
   "dependencies": {
-    "ch-arge": "^1.x.x"
+    "ch-arge": "^2.0.0"
   }
 }
