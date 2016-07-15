@@ -24,6 +24,10 @@ function test(path) {
   child = spawnSync("node", [path]);
   child.stdout.length ? process.stdout.write(child.stdout, "buffer"): void(0);
   child.stderr.length ? process.stdout.write(child.stderr, "buffer") : void(0);
+  if (child.status !== 0) {
+    console.log("child errored!!! with status: " + child.status);
+    process.exit(child.status);
+  }
 }
 
 // FIXME should this be part of helpers
